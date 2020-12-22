@@ -79,6 +79,8 @@ class Personnage
   {
     return $this->_nom;
   }
+
+  // SETTERS //
   
   public function setDegats($degats)
   {

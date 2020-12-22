@@ -1,5 +1,5 @@
 <?php
-// On enregistre notre autoload.
+// Un autoload devra être créé (bien que non indispensable puisqu'il n'y a que deux classes).
 function chargerClasse($classname)
 {
   require $classname.'.php';
@@ -16,15 +16,20 @@ if (isset($_GET['deconnexion']))
   exit();
 }
 
+// Une instance de PDO devra être créée.
 $db = new PDO('mysql:host=localhost;dbname=tp_minijeu_combats', 'root', '');
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING); // On émet une alerte à chaque fois qu'une requête a échoué.
 
+// Une instance de notre manager devra être créée.
 $manager = new PersonnagesManager($db);
 
 if (isset($_SESSION['perso'])) // Si la session perso existe, on restaure l'objet.
 {
   $perso = $_SESSION['perso'];
 }
+
+
+// Le joueur a cliqué sur Créer ce personnage. Le script devra créer un objetPersonnageen passant au constructeur un tableau contenant une entrée (le nom du personnage). Il faudra ensuite s'assurer que le personnage ait un nom valide et qu'il n'existe pas déjà. Après ces vérifications, l'enregistrement en BDD pourra se faire.
 
 if (isset($_POST['creer']) && isset($_POST['nom'])) // Si on a voulu créer un personnage.
 {
@@ -45,6 +50,8 @@ if (isset($_POST['creer']) && isset($_POST['nom'])) // Si on a voulu créer un p
     $manager->add($perso);
   }
 }
+
+// Le joueur a cliqué sur Utiliser ce personnage. Le script devra vérifier si le personnage existe bien en BDD. Si c'est le cas, on le récupère de la BDD.
 
 elseif (isset($_POST['utiliser']) && isset($_POST['nom'])) // Si on a voulu utiliser un personnage.
 {
